@@ -1,0 +1,76 @@
+version: "3.9"
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: docker/backend.Dockerfile
+      args:
+        UID: 1001
+        GID: 1001
+    container_name: flask_app
+    working_dir: /app
+    volumes:
+      - ./backend:/app
+    ports:
+      - "5000:5000"
+    depends_on:
+      - db
+    environment:
+      FLASK_APP: app.py
+      FLASK_DEBUG: 1
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
+
+  frontend:
+    image: node:20-alpine
+    container_name: react_app
+    working_dir: /app
+    volumes:
+      # Mapeia tudo do frontend, permitindo que a node_modules seja criada na sua máquina
+      - ./frontend:/app
+    ports:
+      - "5173:5173"
+    environment:
+      - CHOKIDAR_USEPOLLING=true # Garante o hot-reload no Windows/Mac
+    command: >
+      sh -c "
+      if [ ! -f package.json ]; then
+        echo '----------------------------------------';
+        echo 'Criando novo projeto React/Vite...';
+        echo '----------------------------------------';
+        npx --yes create-vite@latest . --template react;
+      fi;
+      echo '----------------------------------------';
+      echo 'Instalando dependencias (node_modules)...';
+      echo '----------------------------------------';
+      npm install;
+      echo '----------------------------------------';
+      echo 'Iniciando servidor na porta 5173...';
+      echo '----------------------------------------';
+      npm run dev -- --host
+      "
+
+  db:
+    image: postgres:16-alpine
+    container_name: postgres_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - dbdata:/var/lib/postgresql/data
+    ports:
+      - "5433:5432" 
+
+  adminer:
+    image: adminer
+    container_name: adminer
+    restart: unless-stopped
+    ports:
+      - "8081:8080"
+    depends_on:
+      - db
+
+volumes:
+  dbdata:

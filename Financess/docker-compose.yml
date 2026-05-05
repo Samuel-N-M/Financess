@@ -1,6 +1,10 @@
+# Ficheiro: docker-compose.yml
 version: "3.9"
 
 services:
+  # ----------------------------------------
+  # 1. SERVIÇO BACKEND (FLASK)
+  # ----------------------------------------
   backend:
     build:
       context: .
@@ -8,64 +12,72 @@ services:
       args:
         UID: 1001
         GID: 1001
-    container_name: flask_app
+    container_name: financess_flask
     working_dir: /app
     volumes:
-      - ./backend:/app
+      - ./backend:/app # Mapeia os teus ficheiros locais para o contentor
     ports:
       - "5000:5000"
     depends_on:
-      - db
+      - db # O backend só inicia depois da base de dados
     environment:
       FLASK_APP: app.py
       FLASK_DEBUG: 1
+      # A URL liga ao contentor 'db' usando as credenciais do ficheiro .env
       DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
+    # Comando temporário só para manter o contentor vivo até programarmos o app.py
+    command: python app.py
 
+  # ----------------------------------------
+  # 2. SERVIÇO FRONTEND (REACT/VITE)
+  # ----------------------------------------
   frontend:
-    image: node:20-alpine
-    container_name: react_app
+    build:
+      context: .
+      dockerfile: docker/frontend.Dockerfile
+    container_name: financess_react
     working_dir: /app
     volumes:
-      # Mapeia tudo do frontend, permitindo que a node_modules seja criada na sua máquina
-      - ./frontend:/app
+      - ./frontend:/app # Mapeia a pasta do frontend
     ports:
       - "5173:5173"
     environment:
-      - CHOKIDAR_USEPOLLING=true # Garante o hot-reload no Windows/Mac
+      - CHOKIDAR_USEPOLLING=true # Garante o hot-reload (atualização em tempo real)
+    # Script que verifica se o projeto já existe. Se não, instala o React automaticamente!
     command: >
       sh -c "
       if [ ! -f package.json ]; then
-        echo '----------------------------------------';
-        echo 'Criando novo projeto React/Vite...';
-        echo '----------------------------------------';
+        echo '--- Criando novo projeto React/Vite ---';
         npx --yes create-vite@latest . --template react;
       fi;
-      echo '----------------------------------------';
-      echo 'Instalando dependencias (node_modules)...';
-      echo '----------------------------------------';
+      echo '--- Instalando dependencias ---';
       npm install;
-      echo '----------------------------------------';
-      echo 'Iniciando servidor na porta 5173...';
-      echo '----------------------------------------';
+      echo '--- Iniciando servidor React ---';
       npm run dev -- --host
       "
 
+  # ----------------------------------------
+  # 3. SERVIÇO BASE DE DADOS (POSTGRESQL)
+  # ----------------------------------------
   db:
     image: postgres:16-alpine
-    container_name: postgres_db
+    container_name: financess_db
     restart: unless-stopped
     environment:
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     volumes:
-      - dbdata:/var/lib/postgresql/data
+      - dbdata:/var/lib/postgresql/data # Persistência de dados (não perde os dados se o contentor parar)
     ports:
-      - "5433:5432" 
+      - "5433:5432"
 
+  # ----------------------------------------
+  # 4. GESTOR DE BASE DE DADOS (ADMINER)
+  # ----------------------------------------
   adminer:
     image: adminer
-    container_name: adminer
+    container_name: financess_adminer
     restart: unless-stopped
     ports:
       - "8081:8080"
@@ -73,4 +85,4 @@ services:
       - db
 
 volumes:
-  dbdata:
+  dbdata: # Declaração do volume nomeado para a base de dados

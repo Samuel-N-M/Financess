@@ -7,19 +7,17 @@ ARG GID=1001
 # Definir a pasta de trabalho dentro do contentor
 WORKDIR /app
 
-# Instalar dependências do sistema necessárias para compilar pacotes (ex: psycopg2)
+# Instala as dependências do sistema necessárias para o PostgreSQL e compilação
+# O libpq-dev e o gcc são cruciais para instalar o psycopg2 (driver do banco de dados)
 RUN apt-get update \
     && apt-get install -y gcc libpq-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# Copiar apenas o ficheiro de dependências primeiro (otimiza o cache do Docker)
+# Copia o ficheiro de requisitos primeiro (para otimizar o cache do Docker)
 COPY backend/requirements.txt .
 
-# Instalar as dependências do Python
+# Instala as dependências do Python sem guardar cache
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Criar um utilizador não-root por questões de segurança
-RUN groupadd -g "${GID}" appgroup && \
-    useradd -u "${UID}" -g "${GID}" -m -s /bin/bash appuser
-
-USER appuser
+# Expõe a porta 5000 para comunicação
+EXPOSE 5000

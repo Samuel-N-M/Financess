@@ -1,10 +1,21 @@
-const HeaderDashboard = ({onNavigate}) => {
+const HeaderDashboard = ({onNavigate, currentPage}) => {
     return (
         <header className="header-dashboard">
-            <div className="logo" onClick={() => onNavigate('home')}>Financess</div>
+            <div className="logo" onClick={() => onNavigate('home')} style={{cursor: 'pointer'}}>Financess</div>
             <nav className="nav-dashboard">
+                <span 
+                    className={currentPage === 'dashboard' ? 'active' : ''}
+                    onClick={() => onNavigate('dashboard')}
+                >
+                    Dashboard
+                </span>
                 <span>Transações</span>
-                <span>Metas</span>
+                <span 
+                    className={currentPage === 'metas' ? 'active' : ''}
+                    onClick={() => onNavigate('metas')}
+                >
+                    Metas
+                </span>
                 <span>Relatórios</span>
                 <span>Configurações</span>
             </nav>

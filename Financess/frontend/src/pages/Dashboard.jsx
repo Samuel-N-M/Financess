@@ -87,3 +87,4 @@ const Dashboard = ({ onNavigate }) => {
 };
 
 export default Dashboard;
+

@@ -620,3 +620,124 @@ nav a {
     gap: 15px;
   }
 }
+
+/* estilização da página Transactions */
+.transactions-page {
+  background-color: #121212;
+  color: #ffffff;
+  min-height: 100vh;
+  font-family: 'Inter', sans-serif;
+}
+
+.transactions-content {
+  padding: 40px 5%;
+}
+
+.page-title {
+  font-size: 2.8rem;
+  font-weight: bold;
+  margin-bottom: 30px;
+}
+
+/* Filtros */
+.filters-section {
+  margin-bottom: 40px;
+}
+
+.filters-title {
+  font-size: 1.4rem;
+  font-weight: 500;
+  margin-bottom: 20px;
+}
+
+.filters-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 25px 40px;
+  margin-bottom: 25px;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.filter-group label {
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+
+.filter-group select,
+.filter-group input[type="date"] {
+  background-color: #ffffff;
+  color: #333333;
+  border: none;
+  padding: 12px 15px;
+  border-radius: 8px;
+  font-size: 1.05rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Botão de Aplicar Filtro à Direita */
+.filters-action-row {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 15px;
+}
+
+.btn-apply-filter {
+  background-color: transparent;
+  color: #ffffff;
+  border: none;
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Customizações Adicionais da Tabela de Transações */
+.transactions-table-wrapper {
+  margin-top: 20px;
+  overflow-x: auto;
+}
+
+.main-transactions-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.main-transactions-table th,
+.main-transactions-table td {
+  padding: 18px 12px;
+  font-size: 1.05rem;
+}
+
+.main-transactions-table th {
+  color: #ffffff;
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+/* Novas Categorias */
+.cat-freela {background-color: #ccff00; color: #000000;}
+.cat-health {background-color: #00ff00; color: #ffffff;}
+
+/* Estilização da coluna "Tipo" */
+.tag-type {
+  font-weight: bold;
+}
+.badge-income {color: #00c896;}
+.badge-expense {color: #ff0000;}
+
+/* Correção responsiva dos dropdowns */
+@media (max-width: 768px) {
+  .filters-grid {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+}

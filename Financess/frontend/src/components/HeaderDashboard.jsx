@@ -9,7 +9,12 @@ const HeaderDashboard = ({onNavigate, currentPage}) => {
                 >
                     Dashboard
                 </span>
-                <span>Transações</span>
+                <span
+                    className={currentPage === 'transactions' ? 'active' : ''}
+                    onClick={() => onNavigate('transactions')}
+                >
+                    Transações
+                </span>
                 <span 
                     className={currentPage === 'metas' ? 'active' : ''}
                     onClick={() => onNavigate('metas')}

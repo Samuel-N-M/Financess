@@ -2,6 +2,7 @@ import Home from './pages/Home';
 import Register from './pages/Register';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
+import Transactions from './pages/Transactions';
 import Meta from './pages/Meta';
 import './App.css'
 import { useState } from 'react';
@@ -16,6 +17,7 @@ function App() {
       {currentPage === 'register' && <Register onNavigate={setCurrentPage} />}
       {currentPage === 'login' && <Login onNavigate={setCurrentPage} />}
       {currentPage === 'dashboard' && <Dashboard onNavigate={setCurrentPage} />}
+      {currentPage === 'transactions' && <Transactions onNavigate={setCurrentPage} />}
       {currentPage === 'metas' && <Meta onNavigate={setCurrentPage} />}
     </div>
   );

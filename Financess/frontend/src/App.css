@@ -431,3 +431,27 @@ nav a {
   margin-top: 40px;
 }
 
+/* Ajustes específicos das novas imagens de Login/Cadastro */
+.login-form .input-gruop input {
+  background-color: #fbf5f5;
+  border: 2px solid #00c896;
+  color: #333;
+}
+
+.login-form .input-gruop input::placeholder {
+  color: #999;
+}
+
+.highlight-text {
+  color: #00c896;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.highlight-text:hover {
+  text-decoration: underline;
+}
+
+.forgot-password {
+  color: #00c896;
+}

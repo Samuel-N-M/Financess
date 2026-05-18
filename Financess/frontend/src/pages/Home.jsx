@@ -8,7 +8,7 @@ const Home = ({ onNavigate }) => {
             <section className='hero'>
                 <h1>Transforme sua vida financeira com <span className='highlight'>Financess</span>.</h1>
                 <p>Organize suas contas, planeje seu futuro e alcance seus objetivos financeiros de forma simples e inteligente.</p>
-                <button className='btn-primary'>Começar agora (Grátis!)</button>
+                <button className='btn-primary' onClick={() => onNavigate('register')}>Começar agora (Grátis!)</button>
                 <div className='app-preview'>
                     <p>Visão Geral do App Financess</p>
                 </div>

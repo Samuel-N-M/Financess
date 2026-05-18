@@ -1,4 +1,5 @@
 import Home from './pages/Home';
+import Register from './pages/Register';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import './App.css'
@@ -11,6 +12,7 @@ function App() {
   return (
     <div className='App'>
       {currentPage === 'home' && <Home onNavigate={setCurrentPage} />}
+      {currentPage === 'register' && <Register onNavigate={setCurrentPage} />}
       {currentPage === 'login' && <Login onNavigate={setCurrentPage} />}
       {currentPage === 'dashboard' && <Dashboard onNavigate={setCurrentPage} />}
     </div>

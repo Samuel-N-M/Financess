@@ -455,3 +455,168 @@ nav a {
 .forgot-password {
   color: #00c896;
 }
+
+/* Metas Page Styles */
+.metas-page {
+  background-color: #121212;
+  color: #ffffff;
+  min-height: 100vh;
+  font-family: 'Inter', sans-serif;
+}
+
+.metas-content {
+  padding: 40px 5%;
+}
+
+.metas-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+}
+
+.metas-title {
+  font-size: 2.5rem;
+  font-weight: bold;
+}
+
+.btn-add-meta {
+  background-color: transparent;
+  color: #ffffff;
+  border: none;
+  font-size: 1.3rem;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Grid de Metas - 2 Colunas */
+.metas-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 30px;
+}
+
+.meta-card {
+  background-color: #1e1e1e;
+  border-radius: 15px;
+  margin-bottom: 20px; 
+  padding: 25px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 220px;
+}
+
+.meta-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.meta-card-title {
+  color: #00c896;
+  font-size: 1.4rem;
+  font-weight: bold;
+}
+
+/* Caso a meta esteja concluída, o título herda uma cor mais opaca/cinza */
+.meta-completed-card .meta-card-title {
+  color: #777777;
+}
+
+.meta-card-actions {
+  display: flex;
+  gap: 12px;
+  cursor: pointer;
+  font-size: 1.1rem;
+}
+
+.icon-edit {color: #00c896;}
+.icon-delete {color: #ff3b30;}
+
+.meta-card-body {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.label-dim {
+  color: #888888;
+}
+
+.text-green {
+  color: #00c896;
+  font-weight: bold;
+}
+
+/* Botões de Ação Inferiores */
+.btn-add-contribution {
+  background-color: transparent;
+  border: none;
+  color: #00c896;
+  font-size: 1.1rem;
+  font-weight: 500;
+  cursor: pointer;
+  width: 100%;
+  text-align: center;
+  padding: 10px 0;
+}
+
+.btn-add-contribution:hover {
+  text-decoration: underline;
+}
+
+/* Elementos da Barra de Progresso de Meta Concluída */
+.progress-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+
+.progress-bar-bg {
+  background-color: #444444;
+  width: 100%;
+  height: 24px;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progress-bar-fill {
+  background-color: #cccccc;
+  color: #333333;
+  height: 100%;
+  font-size: 0.85rem;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-meta-done {
+  background-color: #cccccc;
+  color: #666666;
+  border: none;
+  padding: 8px 30px;
+  border-radius: 20px;
+  font-size: 0.95rem;
+  font-weight: bold;
+  cursor: not-allowed;
+}
+
+/* Responsividade Básica para telas menores */
+@media (max-width: 768px) {
+  .metas-grid {
+    grid-template-columns: 1fr;
+  }
+  .metas-header-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+}

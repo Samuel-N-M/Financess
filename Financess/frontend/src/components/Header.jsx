@@ -15,3 +15,4 @@ const Header = ({ onNaigate }) => (
 );
 
 export default Header;
+

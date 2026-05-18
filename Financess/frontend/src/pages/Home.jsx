@@ -46,3 +46,4 @@ const Home = ({ onNavigate }) => {
 }
 
 export default Home;
+

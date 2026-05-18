@@ -40,10 +40,12 @@ def create_app():
     # ==========================================
     from routes.auth_routes import auth_bp
     from routes.categoria_routes import categoria_bp
+    from routes.transacao_routes import transacao_bp
     
     # Ao colocar url_prefix='/api/auth', as rotas ficam: /api/auth/register e /api/auth/login
     app.register_blueprint(auth_bp, url_prefix='/api/auth')
     app.register_blueprint(categoria_bp, url_prefix='/api/categorias')
+    app.register_blueprint(transacao_bp, url_prefix='/api/transacoes')
 
     return app
 

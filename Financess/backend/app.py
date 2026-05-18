@@ -1,18 +1,14 @@
-# Ficheiro: backend/app.py
 import os
 from flask import Flask, jsonify
 from flask_cors import CORS
 from flask_migrate import Migrate
+from flask_jwt_extended import JWTManager # <-- Nova importação
 
-# Importar a instância da base de dados centralizada
 from utils.database import db
-
-# Importar os modelos para que o Migrate os reconheça
 from models.usuario_model import Usuario
 from models.categoria_model import Categoria
 
 def create_app():
-    """Factory Function: Cria e configura a aplicação Flask de forma profissional"""
     app = Flask(__name__)
     CORS(app)
 
@@ -20,30 +16,33 @@ def create_app():
     app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     
-    # Configurações do JWT (Segurança)
+    # Configurações de Segurança (JWT)
     app.config['JWT_SECRET_KEY'] = 'uma_chave_super_secreta_para_desenvolvimento'
 
-    # Inicializar os módulos com a aplicação
+    # Inicializar os módulos
     db.init_app(app)
     Migrate(app, db)
+    JWTManager(app) # <-- Inicializa o gestor de Tokens
 
     # Rota de Status (Health Check)
     @app.route('/api/status')
     def status():
         try:
-            # Testa se o banco está respondendo
             db.engine.connect()
-            return jsonify({"status": "Backend rodando, MVC configurado e Banco de Dados Conectado!"})
+            return jsonify({"status": "Backend rodando e Banco Conectado!"})
         except Exception as e:
             return jsonify({"status": "Erro ao conectar no banco", "erro": str(e)}), 500
 
-    # Futuro: Aqui vamos registar as rotas (Blueprints)
-    # from routes.auth_routes import auth_bp
-    # app.register_blueprint(auth_bp, url_prefix='/api/auth')
+    # ==========================================
+    # REGISTO DAS ROTAS (BLUEPRINTS)
+    # ==========================================
+    from routes.auth_routes import auth_bp
+    
+    # Ao colocar url_prefix='/api/auth', as rotas ficam: /api/auth/register e /api/auth/login
+    app.register_blueprint(auth_bp, url_prefix='/api/auth')
 
     return app
 
-# Inicializa a app
 app = create_app()
 
 if __name__ == '__main__':

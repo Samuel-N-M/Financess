@@ -7,6 +7,8 @@ from flask_jwt_extended import JWTManager # <-- Nova importação
 from utils.database import db
 from models.usuario_model import Usuario
 from models.categoria_model import Categoria
+from models.transacao_model import Transacao
+from models.meta_model import Meta
 
 def create_app():
     app = Flask(__name__)

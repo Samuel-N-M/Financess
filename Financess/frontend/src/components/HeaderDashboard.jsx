@@ -21,7 +21,12 @@ const HeaderDashboard = ({onNavigate, currentPage}) => {
                 >
                     Metas
                 </span>
-                <span>Relatórios</span>
+                <span
+                    className={currentPage === 'relatorio' ? 'active' : ''}
+                    onClick={() => onNavigate('relatorio')}
+                >
+                    Relatórios
+                </span>
                 <span>Configurações</span>
             </nav>
 

@@ -5,6 +5,7 @@ import Dashboard from './pages/Dashboard';
 import Transactions from './pages/Transactions';
 import Meta from './pages/Meta';
 import Relatorio from './pages/Relatorio';
+import Configuracao from './pages/Configuracao';
 import './App.css'
 import { useState } from 'react';
 
@@ -21,6 +22,7 @@ function App() {
       {currentPage === 'transactions' && <Transactions onNavigate={setCurrentPage} />}
       {currentPage === 'metas' && <Meta onNavigate={setCurrentPage} />}
       {currentPage === 'relatorio' && <Relatorio onNavigate={setCurrentPage} />}
+      {currentPage === 'configuracao' && <Configuracao onNavigate={setCurrentPage}/>}
     </div>
   );
 }

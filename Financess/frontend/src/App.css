@@ -899,3 +899,237 @@ th.style-right {
     margin-bottom: 12px;
   }
 }
+
+/* estilização da página Configurção */
+.configuracao-page {
+  background-color: #121212;
+  color: #ffffff;
+  min-height: 100vh;
+  font-family: 'Inter', sans-serif;
+}
+
+.configuracao-content {
+  padding: 40px 8%;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.configuracao-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.configuracao-title {
+  font-size: 2.8rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.configuracao-subtitle {
+  color: #ffffff;
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+
+.configuracao-section {
+  margin: 30px 0;
+}
+
+.section-title {
+  font-size: 1.4rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+/* Inputs da Página de Configuração */
+.configuracao-from {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.configuracao-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.configuracao-input-group label {
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+
+.configuracao-input-group input {
+  background-color: #fbf5f5;
+  color: #333333;
+  border: none;
+  padding: 12px 15px;
+  border-radius: 6px;
+  font-size: 1.1rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Botões Customizados */
+.btn-configuracao-save {
+  background-color: #00c896;
+  color: #ffffff;
+  border: none;
+  padding: 12px 24px;
+  font-size: 1.05rem;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+  width: fit-content;
+}
+
+.btn-configuracao-dark {
+  background-color: #333333;
+  color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1.05rem;
+  font-weight: bold;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+
+.btn-configuracao-danger {
+  background-color: #ff0000;
+  color: #ffffff;
+  border: none;
+  padding: 12px 24px;
+  font-size: 1.05rem;
+  font-weight: bold;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.configuracao-dim-text {
+  color: #666666;
+  font-size: 0.95rem;
+}
+
+.notifications-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.notifications-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+.toggle-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.toggle-label-title {
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+
+.toggle-control-row {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.toggle-status-text {
+  font-size: 1.05rem;
+  font-weight: bold;
+}
+
+/* Link Inferior de Retorno */
+.back-to-dashboard-wrapper {
+  text-align: center;
+  margin: 40px 0;
+}
+
+.back-dashboard-link {
+  color: #00c896;
+  font-size: 1.3rem;
+  font-weight: bold;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.back-dashboard-link:hover {
+  text-decoration: underline;
+}
+
+/* --- SWITCH INTERRUPTOR CUSTOMIZADO (CSS) --- */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 54px;
+  height: 28px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #444444;
+  transition: .3s;
+}
+
+.slider::before {
+  position: absolute;
+  content: "";
+  height: 20px;
+  width: 20px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  transition: .3s;
+}
+
+input:checked + .slider {
+  background-color: #00c896;
+}
+
+input:checked + .slider::before {
+  transition: translateX(26px);
+}
+
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round::before {
+  border-radius: 50%;
+}
+
+/* Responsividade Mobile */
+@media (max-width: 768px) {
+  .configuracao-content {
+    padding: 30px 4%;
+  }
+  .notifications-item {
+    flex-direction: row;
+    gap: 15px;
+    font-size: 1rem;
+  }
+  .btn-configuracao-save {
+    width: 100%;
+    text-align: center;
+  }
+}

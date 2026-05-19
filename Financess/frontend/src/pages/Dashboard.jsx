@@ -34,9 +34,9 @@ const Dashboard = ({ onNavigate }) => {
                 </div>
 
                 <div className="dashboatd-actions">
-                    <button className="btn-action btn-add-income">➕ Adicionar Receita</button>
-                    <button className="btn-action btn-add-espense">➖ Adicionar Despesa</button>
-                    <button className="btn-action btn-view-all">👁️ Ver Todas Transações</button>
+                    <button className="btn-action btn-add-income" onClick={() => onNavigate('add-income')}>➕ Adicionar Receita</button>
+                    <button className="btn-action btn-add-espense" onClick={() => onNavigate('add-expense')}>➖ Adicionar Despesa</button>
+                    <button className="btn-action btn-view-all" onClick={() => onNavigate('transactions')}>👁️ Ver Todas Transações</button>
                 </div>
 
                 <div className="months-filter">

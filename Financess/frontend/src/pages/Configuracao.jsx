@@ -37,7 +37,7 @@ const Configuracao = ({onNavigate}) => {
                 <section className="configuracao-section">
                     <h2 className="section-title">Segurança</h2>
                     <div className="security-actions">
-                        <button className="btn-configuracao-dark">Altera Senha</button>
+                        <button className="btn-configuracao-dark" onClick={() => onNavigate('altera-senha')}>Altera Senha</button>
 
                         <div className="toggle-wrapper">
                             <span className="toggle-label-title">Autenticação de Dois Fatores (2FA)</span>

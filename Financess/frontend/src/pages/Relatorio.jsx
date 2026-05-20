@@ -88,10 +88,10 @@ const Relatorio = ({onNavigate}) => {
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr><td>01/03/2025</td><td className="text-income style-right">R$ 10.500,00</td></tr>
-                                <tr><td>01/04/2025</td><td className="text-income style-right">R$ 12.600,00</td></tr>
-                                <tr><td>01/05/2025</td><td className="text-income style-right">R$ 14.850,00</td></tr>
-                                <tr><td>27/05/2025</td><td className="text-income style-right">R$ 17.200,00</td></tr>
+                                <tr><td>01/03/2026</td><td className="text-income style-right">R$ 10.500,00</td></tr>
+                                <tr><td>01/04/2026</td><td className="text-income style-right">R$ 12.600,00</td></tr>
+                                <tr><td>01/05/2026</td><td className="text-income style-right">R$ 14.850,00</td></tr>
+                                <tr><td>27/05/2026</td><td className="text-income style-right">R$ 17.200,00</td></tr>
                             </tbody>
                         </table>
                     </div>

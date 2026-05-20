@@ -1253,3 +1253,137 @@ input:checked + .slider::before {
     justify-content: space-between;
   }
 }
+
+/* --- TELA ADICIONAR META (FIDELIDADE MÁXIMA) --- */
+.goal-form-page {
+  background-color: #1a1a1a;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.goal-form-container {
+  flex: 1;
+  padding: 30px 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.goal-form-box {
+  width: 100%;
+  max-width: 900px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Grupos de Labels e Inputs */
+.goal-form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 22px;
+}
+
+.goal-form-group.full-width {
+  width: 100%;
+}
+
+.goal-form-group label {
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: bold;
+  margin-bottom: 6px;
+}
+
+.goal-form-group input,
+.goal-form-group select,
+.goal-form-group textarea {
+  background-color: #fbf5f5;
+  color: #333333;
+  border: 2px solid #00c896;
+  border-radius: 8px;
+  padding: 12px 15px;
+  font-size: 1.05rem;
+  width: 100%;
+  box-sizing: border-box;
+  outline: none;
+}
+
+.goal-form-group input::placeholder,
+.goal-form-group textarea::placeholder {
+  color: #a6a6a6;
+}
+
+/* Alinhamento de colunas paralelas */
+.goal-form-row {
+  display: flex;
+  gap: 40px;
+  width: 100%;
+}
+
+.goal-form-row .goal-form-group {
+  flex: 1;
+}
+
+/* Estilização da seta do Select customizado */
+.select-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+/* Barra de ações inferior */
+.goal-form-actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 35px;
+  margin-top: 15px;
+  padding-top: 15px;
+}
+
+.goal-btn-cancel {
+  color: #ffffff;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  user-select: none;
+}
+
+.goal-btn-cancel:hover {
+  text-decoration: underline;
+}
+
+.goal-btn-submit {
+  background-color: transparent;
+  color: #ffffff;
+  border: none;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0;
+}
+
+.goal-btn-submit:hover {
+  text-decoration: underline;
+}
+
+/* Ícone de Fita Branca idêntico ao da foto */
+.bookmark-svg {
+  width: 22px;
+  height: 22px;
+  color: #ffffff;
+}
+
+/* Responsividade Mobile */
+@media (max-width: 768px) {
+  .goal-form-row {
+    flex-direction: column;
+    gap: 0px;
+  }
+  .goal-form-actions {
+    justify-content: space-between;
+    width: 100%;
+  }
+}

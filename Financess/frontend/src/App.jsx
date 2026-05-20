@@ -9,6 +9,7 @@ import Relatorio from './pages/Relatorio';
 import Configuracao from './pages/Configuracao';
 import AlteraSenha from './pages/AlteraSenha';
 import TransactionForm from './pages/TransactionForm';
+import AdicionarMetas from './pages/AddGoal';
 import './App.css'
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
       {currentPage === 'altera-senha' && <AlteraSenha onNavigate={setCurrentPage} />}
       {currentPage === 'add-income' && (<TransactionForm onNavigate={setCurrentPage} type="income" currentPage="dashboard" />)}
       {currentPage === 'add-expense' && (<TransactionForm onNavigate={setCurrentPage} type="expense" currentPage="dashboard" />)}
+      {currentPage === 'add-goal' && (<AdicionarMetas onNavigate={setCurrentPage} currentPage="metas" />)}
 
     </div>
   );

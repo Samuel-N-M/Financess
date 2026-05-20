@@ -40,7 +40,7 @@ const Meta = ({onNavigate}) => {
             <main className="metas-content">
                 <div className="metas-header-row">
                     <h1 className="metas-title">Minhas Metas Financeiras</h1>
-                    <button className="btn-add-goal">
+                    <button className="btn-add-goal" onClick={() => onNavigate('add-goal')}>
                         <span className="plus-icon">➕</span> Adicionar Nova Meta
                     </button>
                 </div>

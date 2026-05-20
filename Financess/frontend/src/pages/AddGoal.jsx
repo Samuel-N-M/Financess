@@ -1,4 +1,3 @@
-import React from 'react';
 import HeaderDashboard from '../components/HeaderDashboard';
 
 const AddGoal = ({ onNavigate, currentPage }) => {

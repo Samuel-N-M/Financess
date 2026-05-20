@@ -33,7 +33,14 @@ const Login = ({ onNavigate }) => {
                             <label className="remember-me">
                                 <input type="checkbox" /> Lembrar-me
                             </label>
-                            <a href="#" className="forgot-password">Esqueceu minha senha</a>
+                            <a 
+                                href="#" 
+                                className="forgot-password" 
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    onNavigate('forgot-password');
+                                }}
+                            >Esqueceu minha senha</a>
                         </div>
 
                         <button type="submit" className="btn-entra">Entra</button>

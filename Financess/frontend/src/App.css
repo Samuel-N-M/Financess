@@ -1345,7 +1345,6 @@ input:checked + .slider::before {
   font-size: 1.1rem;
   font-weight: bold;
   cursor: pointer;
-  user-select: none;
 }
 
 .goal-btn-cancel:hover {
@@ -1385,5 +1384,139 @@ input:checked + .slider::before {
   .goal-form-actions {
     justify-content: space-between;
     width: 100%;
+  }
+}
+
+/* --- ESTILOS PARA A TELA ESQUECEU A SENHA --- */
+
+/* Container Principal Escuro */
+.recovery-page-global {
+  background-color: #121212;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Inter', sans-serif;
+}
+
+.recovery-view-container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  padding: 40px 20px;
+}
+
+.recovery-box-card {
+  background-color: #1e1e1e;
+  width: 100%;
+  max-width: 650px;
+  padding: 45px 50px;
+  border-radius: 15px;
+  text-align: center;
+  box-sizing: border-box;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+}
+
+.recovery-brand-title {
+  color: #00c896;
+  font-size: 2.2rem;
+  font-weight: bold;
+  margin: 0 0 10px 0;
+}
+
+.recovery-main-heading {
+  color: #ffffff;
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin: 10px 0 15px 0;
+}
+
+.recovery-instruction-text {
+  color: #ffffff;
+  font-size: 1.05rem;
+  line-height: 1.5;
+  margin-bottom: 30px;
+  padding: 0 15px;
+}
+
+.recovery-input-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  text-align: left;
+  margin-bottom: 25px;
+}
+
+.recovery-field-label {
+  color: #ffffff;
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+
+.recovery-input-field {
+  background-color: #fbf5f5 !important;
+  color: #333333 !important;
+  border: 2px solid #00c896 !important;
+  border-radius: 8px !important;
+  padding: 14px 16px !important;
+  font-size: 1.1rem !important;
+  width: 100%;
+  box-sizing: border-box;
+  outline: none;
+}
+
+.recovery-submit-button {
+  background-color: #00c896 !important;
+  color: #ffffff !important;
+  font-size: 1.1rem !important;
+  font-weight: bold !important;
+  border: none !important;
+  border-radius: 8px !important;
+  padding: 14px 0 !important;
+  width: 100%;
+  cursor: pointer;
+  margin-top: 5px;
+  transition: opacity 0.2s ease;
+}
+
+.recovery-submit-button:hover {
+  opacity: 0.9;
+}
+
+.recovery-footer-links {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.recovery-link-paragraph {
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.recovery-accent-link:hover {
+  text-decoration: underline;
+}
+
+.recovery-footer-global {
+  text-align: center;
+  padding: 25px;
+  color: #777777;
+  font-size: 0.9rem;
+  border-top: 1px solid #252525;
+}
+ 
+/* Responsividade Adaptável para Telas Menores (Mobile) */
+@media (max-width: 600px) {
+  .recovery-box-card {
+    padding: 30px 20px;
+  }
+  .recovery-main-heading {
+    font-size: 1.5rem;
+  }
+  .recovery-instruction-text {
+    font-size: 0.95rem;
+    padding: 0;
   }
 }

@@ -1,13 +1,34 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import HeaderDashboard from '../components/HeaderDashboard';
 import api from '../services/api';
 
 const AddGoal = ({ onNavigate, currentPage }) => {
-  const [nome, setNome] = useState("");
+  const [titulo, setTitulo] = useState("");
   const [valorAlvo, setValorAlvo] = useState("");
   const [valorAtual, setValorAtual] = useState("");
   const [dataAlvo, setDataAlvo] = useState("");
+  const [categoriaId, setCategoriaId] = useState("");
+  const [observacoes, setObservacoes] = useState("");
+  
   const [erro, setErro] = useState("");
+  const [categorias, setCategorias] = useState([]);
+  const [carregandoCategorias, setCarregandoCategorias] = useState(true);
+
+  useEffect(() => {
+    const fetchCategorias = async () => {
+      try {
+        const response = await api.get('/categorias');
+        setCategorias(response.data);
+      } catch (error) {
+        console.error("Erro ao carregar categorias:", error);
+        setErro("Não foi possível carregar as categorias.");
+        if (error.response?.status === 401) onNavigate('login');
+      } finally {
+        setCarregandoCategorias(false);
+      }
+    };
+    fetchCategorias();
+  }, [onNavigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -22,12 +43,14 @@ const AddGoal = ({ onNavigate, currentPage }) => {
           return;
       }
 
-      // IMPORTANTE: Agora enviamos os dados com os Nomes exatos que o backend espera!
+      // Os nomes das chaves agora batem exatamente com o meta_controller.py
       const novaMeta = {
-        titulo: nome,                  // Era 'nome' no frontend, agora mapeia para 'titulo'
+        titulo: titulo,                  
         valor_alvo: valorAlvoFormatado,
         valor_atual: valorAtualFormatado,
-        prazo: dataAlvo                // Era 'data_alvo', agora mapeia para 'prazo'
+        prazo: dataAlvo,
+        categoria_id: categoriaId || null,
+        observacoes: observacoes
       };
 
       await api.post('/metas', novaMeta);
@@ -57,8 +80,8 @@ const AddGoal = ({ onNavigate, currentPage }) => {
             <input 
               type="text" 
               placeholder="Ex: Viagem dos sonhos, Entrada do Apartamento" 
-              value={nome}
-              onChange={(e) => setNome(e.target.value)}
+              value={titulo}
+              onChange={(e) => setTitulo(e.target.value)}
               required 
             />
           </div>
@@ -96,6 +119,33 @@ const AddGoal = ({ onNavigate, currentPage }) => {
                 required 
               />
             </div>
+
+            <div className="goal-form-group">
+              <label>Categoria:</label>
+              <select 
+                  value={categoriaId}
+                  onChange={(e) => setCategoriaId(e.target.value)}
+                  disabled={carregandoCategorias}
+                  style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #ccc', backgroundColor: carregandoCategorias ? '#f5f5f5' : '#fff' }}
+              >
+                <option value="">Selecione uma categoria (Opcional)</option>
+                {categorias.map((cat) => (
+                    <option key={cat.id} value={cat.id}>
+                        {cat.nome}
+                    </option>
+                ))}
+              </select>
+            </div>
+          </div>
+
+          <div className="goal-form-group full-width" style={{ marginTop: '15px' }}>
+            <label>Observações (Opcional):</label>
+            <textarea 
+              placeholder="Alguma nota adicional sobre a meta..." 
+              rows="4"
+              value={observacoes}
+              onChange={(e) => setObservacoes(e.target.value)}
+            ></textarea>
           </div>
 
           <div className="goal-form-actions" style={{ marginTop: '30px' }}>

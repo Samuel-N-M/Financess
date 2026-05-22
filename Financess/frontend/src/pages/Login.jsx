@@ -1,32 +1,63 @@
+import { useState } from "react";
 import Header from "../components/Header";
+import api from "../services/api";
 
 const Login = ({ onNavigate }) => {
-    // Função para lidar com o envio do formulário
-    const handleSubmit = (e) => {
-        e.preventDefault();
+    const [email, setEmail] = useState("");
+    const [senha, setSenha] = useState("");
+    const [erro, setErro] = useState("");
 
-        // Aqui no futuro você colocará a lógica de autenticação (API)
-        onNavigate('dashboard');
+    // Lógica real de autenticação conectada ao Backend
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setErro("");
+
+        try {
+            const response = await api.post('/auth/login', { email, senha });
+            const { token, usuario } = response.data;
+            
+            // Salva as credenciais no navegador
+            localStorage.setItem('@Financess:token', token);
+            localStorage.setItem('@Financess:user', JSON.stringify(usuario));
+
+            onNavigate('dashboard');
+        } catch (err) {
+            setErro(err.response?.data?.erro || "Erro ao fazer login. Verifique as suas credenciais.");
+        }
     };
 
     return (
         <div className="login-page">
-            <Header onNaigate={onNavigate} />
+            <Header onNavigate={onNavigate} /> {/* Erro de digitação corrigido aqui */}
 
             <div className="login-container">
                 <div className="login-card">
-                    <h1 className="login-title">Finaceiras</h1>
+                    <h1 className="login-title">Financess</h1>
                     <p className="login-subtitle">Acesse sua conta para continuar.</p>
                 
                     <form className="login-form" onSubmit={handleSubmit}>
+                        {erro && <p style={{color: '#d9534f', backgroundColor: '#fdf7f7', padding: '10px', borderRadius: '5px', marginBottom: '15px'}}>{erro}</p>}
+
                         <div className="input-group">
                             <label>E-mail:</label>
-                            <input type="email" placeholder="seuemail@exemplo.com" required />
+                            <input 
+                                type="email" 
+                                placeholder="seuemail@exemplo.com" 
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                required 
+                            />
                         </div>
 
                         <div className="input-group">
                             <label>Senha:</label>
-                            <input type="password" placeholder="Sua senha" required />
+                            <input 
+                                type="password" 
+                                placeholder="Sua senha" 
+                                value={senha}
+                                onChange={(e) => setSenha(e.target.value)}
+                                required 
+                            />
                         </div>
 
                         <div className="form-options">
@@ -40,17 +71,17 @@ const Login = ({ onNavigate }) => {
                                     e.preventDefault();
                                     onNavigate('forgot-password');
                                 }}
-                            >Esqueceu minha senha</a>
+                            >Esqueceu minha senha?</a>
                         </div>
 
-                        <button type="submit" className="btn-entra">Entra</button>
+                        <button type="submit" className="btn-entra">Entrar</button>
                     </form>
 
                     <p className="signup-text">
                         Não tem uma conta? 
                         <a href="#" className="highlight" onClick={(e) => {
                             e.preventDefault();
-                            onNavigate('dashboard');
+                            onNavigate('register'); // Link corrigido
                         }}>
                             Crie uma conta
                         </a>

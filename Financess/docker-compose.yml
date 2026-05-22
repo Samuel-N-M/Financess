@@ -25,9 +25,8 @@ services:
       FLASK_DEBUG: 1
       # A URL liga ao contentor 'db' usando as credenciais do ficheiro .env
       DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
-    # Comando temporário só para manter o contentor vivo até programarmos o app.py
-    command: python app.py
-
+    # Executa automaticamente as migrações estruturais do banco de dados antes de levantar o servidor Flask
+    command: sh -c "flask db upgrade && python app.py"
   # ----------------------------------------
   # 2. SERVIÇO FRONTEND (REACT/VITE)
   # ----------------------------------------

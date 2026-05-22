@@ -2,6 +2,7 @@ from flask import request, jsonify
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_jwt_extended import create_access_token
 from models.usuario_model import Usuario
+from models.categoria_model import Categoria
 from utils.database import db
 
 # ===== Função para registar um novo utilizador no sistema. ===== #
@@ -29,6 +30,30 @@ def registrar_usuario():
     novo_usuario = Usuario(nome=nome, email=email, senha_hash=senha_hash)
     db.session.add(novo_usuario)
     db.session.commit()
+
+    # 5. SEED AUTOMÁTICO DE CATEGORIAS PADRÃO
+    # Cria a lista essencial de categorias diretamente vinculadas a este novo utilizador
+    categorias_padrao = [
+        {"nome": "Alimentação", "tipo": "despesa"},
+        {"nome": "Moradia", "tipo": "despesa"},
+        {"nome": "Transporte", "tipo": "despesa"},
+        {"nome": "Lazer", "tipo": "despesa"},
+        {"nome": "Saúde", "tipo": "despesa"},
+        {"nome": "Salário", "tipo": "receita"},
+        {"nome": "Freelance", "tipo": "receita"},
+        {"nome": "Investimentos", "tipo": "receita"}
+    ]
+
+    try:
+        for nome_categoria in categorias_padrao:
+            nova_categoria = Categoria(nome=nome_categoria, usuario_id=novo_usuario.id)
+            db.session.add(nova_categoria)
+        
+        db.session.commit()
+    except Exception as e:
+        # Em caso de falha nas categorias, faz o rollback para não corromper a sessão
+        db.session.rollback()
+        return jsonify({"erro": "Utilizador criado, mas falhou a geração das categorias padrão.", "detalhes": str(e)}), 500
 
     return jsonify({"mensagem": "Utilizador registado com sucesso!"}), 201
 

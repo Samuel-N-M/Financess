@@ -5,25 +5,21 @@ import api from "../services/api";
 const TransactionForm = ({ onNavigate, type, currentPage }) => {
     const isIncome = type === 'income';
 
-    // Estados do formulário
     const [descricao, setDescricao] = useState("");
     const [valor, setValor] = useState("");
     const [dataOcorrencia, setDataOcorrencia] = useState("");
     const [categoriaId, setCategoriaId] = useState("");
-    const [contaDestino, setContaDestino] = useState(""); // Mantido visualmente
     const [observacoes, setObservacoes] = useState("");
+    
     const [erro, setErro] = useState("");
-
-    // Estados das categorias
     const [categorias, setCategorias] = useState([]);
     const [carregandoCategorias, setCarregandoCategorias] = useState(true);
 
-    // Carregar as categorias filtradas (Receita ou Despesa) do banco de dados
+    // Carrega as categorias do banco de dados
     useEffect(() => {
         const fetchCategorias = async () => {
             try {
                 const tipoBusca = isIncome ? 'receita' : 'despesa';
-                // O seu controlador suporta o filtro '?tipo=' nativamente!
                 const response = await api.get(`/categorias?tipo=${tipoBusca}`);
                 setCategorias(response.data);
             } catch (error) {
@@ -42,16 +38,25 @@ const TransactionForm = ({ onNavigate, type, currentPage }) => {
         e.preventDefault();
         setErro("");
 
+        if (!categoriaId) {
+            setErro("Por favor, selecione uma categoria.");
+            return;
+        }
+
         try {
-            // Formatar valor (troca vírgula por ponto para o backend aceitar)
             const valorFormatado = parseFloat(valor.replace(',', '.'));
+            
+            if (isNaN(valorFormatado)) {
+                setErro("Por favor, insira um valor numérico válido.");
+                return;
+            }
 
             const novaTransacao = {
                 descricao: descricao,
                 valor: valorFormatado,
                 tipo: isIncome ? 'receita' : 'despesa',
                 data_ocorrencia: dataOcorrencia, 
-                categoria_id: categoriaId 
+                categoria_id: parseInt(categoriaId, 10)
             };
 
             await api.post('/transacoes', novaTransacao);
@@ -71,14 +76,13 @@ const TransactionForm = ({ onNavigate, type, currentPage }) => {
                     <form onSubmit={handleSubmit}>
                         
                         {erro && (
-                            <div style={{ color: '#d9534f', backgroundColor: '#fdf7f7', padding: '10px', borderRadius: '5px', marginBottom: '15px' }}>
+                            <div style={{ color: '#d9534f', backgroundColor: '#fdf7f7', padding: '10px', borderRadius: '5px', marginBottom: '15px', border: '1px solid #d9534f' }}>
                                 {erro}
                             </div>
                         )}
 
-                        {/* Descrição */}
                         <div className="form-group-row full-width">
-                            <label>{isIncome ? 'Descrição da Receita:' : 'Descrição:'}</label>
+                            <label>{isIncome ? 'Descrição da Receita:' : 'Descrição da Despesa:'}</label>
                             <input 
                                 type="text" 
                                 placeholder="Ex: Salário Mensal" 
@@ -88,7 +92,6 @@ const TransactionForm = ({ onNavigate, type, currentPage }) => {
                             />
                         </div>
 
-                        {/* Linha com Valor e Data */}
                         <div className="form-flex-row">
                             <div className="form-group-row half-width">
                                 <label>Valor (R$):</label>
@@ -112,55 +115,38 @@ const TransactionForm = ({ onNavigate, type, currentPage }) => {
                             </div>
                         </div>
 
-                        {/* Linha com Categoria e Conta de Destino */}
-                        <div className="form-flex-row">
-                            <div className="form-group-row half-width">
-                                <label>Categoria:</label>
-                                <select 
-                                    value={categoriaId} 
-                                    onChange={(e) => setCategoriaId(e.target.value)}
-                                    required
-                                    disabled={carregandoCategorias}
-                                >
-                                    <option value="" disabled>
-                                        {carregandoCategorias ? "A carregar..." : "Selecione uma categoria"}
+                        <div className="form-group-row full-width">
+                            <label>Categoria:</label>
+                            <select 
+                                value={categoriaId} 
+                                onChange={(e) => setCategoriaId(e.target.value)}
+                                required
+                                disabled={carregandoCategorias}
+                                style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #ccc' }}
+                            >
+                                <option value="" disabled>
+                                    {carregandoCategorias ? "A carregar categorias..." : "Selecione uma categoria"}
+                                </option>
+                                {categorias.map((cat) => (
+                                    <option key={cat.id} value={cat.id}>
+                                        {cat.nome}
                                     </option>
-                                    {categorias.map((cat) => (
-                                        <option key={cat.id} value={cat.id}>
-                                            {cat.nome}
-                                        </option>
-                                    ))}
-                                </select>
-                            </div>
-
-                            <div className="form-group-row half-width">
-                                <label>Conta de Destino:</label>
-                                <select 
-                                    value={contaDestino}
-                                    onChange={(e) => setContaDestino(e.target.value)}
-                                >
-                                    <option value="" disabled>Selecione uma conta</option>
-                                    <option value="carteira">Carteira Principal</option>
-                                    <option value="banco">Conta Bancária</option>
-                                    <option value="poupanca">Poupança</option>
-                                </select>
-                            </div>
+                                ))}
+                            </select>
                         </div>
 
-                        {/* Observações */}
                         <div className="form-group-row full-width">
                             <label>Observações (Opcional):</label>
                             <textarea
-                                placeholder={isIncome ? "Alguma nota adicional sobre a receita..." : "Alguma nota adicional sobre a despesa..."}
-                                rows="5"
+                                placeholder="Alguma nota adicional..."
+                                rows="4"
                                 value={observacoes}
                                 onChange={(e) => setObservacoes(e.target.value)}
                             ></textarea>
                         </div>
 
-                       {/* Ações Inferiores (Cancelar e Adicionar) */} 
                        <div className="form-actions-row">
-                            <span className="btn-form-cancel" onClick={() => onNavigate('dashboard')}>
+                            <span className="btn-form-cancel" onClick={() => onNavigate('dashboard')} style={{ cursor: 'pointer', color: '#666', fontWeight: 'bold' }}>
                                 Cancelar
                             </span>
                             <button type="submit" className="btn-form-submit">

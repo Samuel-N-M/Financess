@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import Header from '../components/Header';
 import api from '../services/api';
 
 const Register = ({ onNavigate }) => {
@@ -9,68 +8,74 @@ const Register = ({ onNavigate }) => {
   const [senha, setSenha] = useState('');
   const [confirmarSenha, setConfirmarSenha] = useState('');
   
-  // Estados para feedback visual (erros ou sucesso)
+  // Estados para feedback visual
   const [erro, setErro] = useState('');
   const [sucesso, setSucesso] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErro('');
     setSucesso('');
 
-    // 1. Validação no Frontend: Verificar se as senhas são iguais
+    // 1. Validação no Frontend
     if (senha !== confirmarSenha) {
       setErro('As senhas não coincidem. Por favor, verifique.');
       return;
     }
 
-    // 2. Validação de tamanho mínimo da senha
-    if (senha.length < 8) {
-      setErro('A senha deve ter pelo menos 8 caracteres.');
+    if (senha.length < 6) {
+      setErro('A senha deve ter pelo menos 6 caracteres.');
       return;
     }
 
+    setLoading(true);
+
     try {
-      // 3. Enviar os dados para o backend (espera nome, email e senha)
+      // 2. Enviar os dados para o backend (auth_controller.py)
       await api.post('/auth/register', {
         nome: nome,
         email: email,
         senha: senha
       });
 
-      // 4. Feedback de sucesso e redirecionamento
+      // 3. Feedback de sucesso e redirecionamento seguro
       setSucesso('Conta criada com sucesso! A redirecionar para o login...');
       
-      // Aguarda 2 segundos para o utilizador ler a mensagem e depois vai para o login
       setTimeout(() => {
         onNavigate('login');
       }, 2000);
 
     } catch (error) {
       console.error("Erro ao registar utilizador:", error);
-      // Puxa a mensagem de erro que vem do backend (ex: "Este email já está registado.")
-      setErro(error.response?.data?.erro || "Ocorreu um erro ao criar a conta. Tente novamente.");
+      setErro(error.response?.data?.erro || error.response?.data?.detalhes || "Ocorreu um erro ao criar a conta. Tente novamente.");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div className="login-page">
-      <Header onNavigate={onNavigate} />
+      {/* Cabeçalho minimalista para a página de registo */}
+      <header style={{ padding: '20px 30px', backgroundColor: 'transparent' }}>
+          <h2 onClick={() => onNavigate('home')} style={{ margin: 0, color: '#2b7a78', fontSize: '24px', fontWeight: 'bold', cursor: 'pointer' }}>Financess</h2>
+      </header>
       
       <div className="login-container">
         <div className="login-card">
-          <h1 className="login-title">Financess</h1>
-          <p className="login-subtitle">Crie sua conta para começar a gerenciar suas finanças.</p>
+          <h1 className="login-title">Criar Conta</h1>
+          <p className="login-subtitle">Comece a gerir as suas finanças hoje mesmo.</p>
           
           <form className="login-form" onSubmit={handleSubmit}>
             
+            {/* Mensagens de Erro ou Sucesso */}
             {erro && (
-              <div style={{ color: '#d9534f', backgroundColor: '#fdf7f7', padding: '10px', borderRadius: '5px', marginBottom: '15px', fontSize: '14px' }}>
+              <div style={{ color: '#d9534f', backgroundColor: '#fdf7f7', padding: '10px', borderRadius: '5px', marginBottom: '15px', fontSize: '14px', border: '1px solid #d9534f' }}>
                   {erro}
               </div>
             )}
             {sucesso && (
-              <div style={{ color: '#4caf50', backgroundColor: '#f0fdf4', padding: '10px', borderRadius: '5px', marginBottom: '15px', fontSize: '14px' }}>
+              <div style={{ color: '#4caf50', backgroundColor: '#f0fdf4', padding: '10px', borderRadius: '5px', marginBottom: '15px', fontSize: '14px', border: '1px solid #4caf50' }}>
                   {sucesso}
               </div>
             )}
@@ -79,10 +84,11 @@ const Register = ({ onNavigate }) => {
               <label>Nome Completo:</label>
               <input 
                 type="text" 
-                placeholder="Seu nome completo" 
+                placeholder="O seu nome completo" 
                 value={nome}
                 onChange={(e) => setNome(e.target.value)}
                 required 
+                disabled={loading || sucesso}
               />
             </div>
 
@@ -94,6 +100,7 @@ const Register = ({ onNavigate }) => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required 
+                disabled={loading || sucesso}
               />
             </div>
             
@@ -101,10 +108,11 @@ const Register = ({ onNavigate }) => {
               <label>Senha:</label>
               <input 
                 type="password" 
-                placeholder="Mínimo 8 caracteres" 
+                placeholder="Mínimo 6 caracteres" 
                 value={senha}
                 onChange={(e) => setSenha(e.target.value)}
                 required 
+                disabled={loading || sucesso}
               />
             </div>
 
@@ -112,24 +120,16 @@ const Register = ({ onNavigate }) => {
               <label>Confirmar Senha:</label>
               <input 
                 type="password" 
-                placeholder="Repita sua senha" 
+                placeholder="Repita a sua senha" 
                 value={confirmarSenha}
                 onChange={(e) => setConfirmarSenha(e.target.value)}
                 required 
+                disabled={loading || sucesso}
               />
             </div>
             
-            <div className="form-options">
-              <label className="remember-me" style={{ display: 'flex', alignItems: 'flex-start', textAlign: 'left', lineHeight: '1.3' }}>
-                <input type="checkbox" required style={{ marginTop: '3px', marginRight: '8px' }} /> 
-                <span>
-                  Eu li e concordo com os <a href="#" className="highlight-text">Termos de Serviço</a> e a <a href="#" className="highlight-text">Política de Privacidade</a>
-                </span>
-              </label>
-            </div>
-            
-            <button type="submit" className="btn-entra" style={{ marginTop: '10px' }} disabled={!!sucesso}>
-              Criar Conta
+            <button type="submit" className="btn-entra" style={{ marginTop: '20px' }} disabled={loading || sucesso}>
+              {loading ? 'A criar conta...' : 'Criar Conta'}
             </button>
           </form>
           

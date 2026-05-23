@@ -191,6 +191,3 @@ Como parte do processo de homologação conduzido pela equipe na disciplina de M
 * **Lead Time de Processo (Eficiência):** O tempo médio de ciclo para a conclusão de uma tarefa de desenvolvimento foi otimizado de **96 horas** para céleres **4 horas**. Essa melhoria foi alcançada por meio da fragmentação de histórias complexas em tarefas menores no quadro Kanban.
 * **Taxa de Rejeição de Pull Requests (PRs):** Aprovou-se a política de testes locais de formulários e bancos de dados antes de submissões ao GitHub. Isso resultou em uma taxa de reação de **0%** na última semana (10 PRs submetidos e mesclados com sucesso sem quebrar o container de produção).
 
-```
-
-```

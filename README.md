@@ -22,7 +22,7 @@ A aplicação utiliza uma divisão clara de responsabilidades através de uma ar
 | :--- | :--- | :--- |
 | **Frontend** | React (JS/ES6+) | Construção de componentes de interface SPA (Single Page Application), reutilização de blocos e controle declarativo de estados locais. |
 | **Empacotador** | Vite | Orquestração do build do cliente, oferecendo Hot Module Replacement (HMR) instantâneo para um ciclo rápido de desenvolvimento. |
-| **Estilização** | Tailwind CSS | Framework utilitário integrado para aplicar o guia de estilo visual de alta fidelidade e garantir responsividade fluida diretamente no código. |
+| **Estilização** | Custom CSS3 (Vanilla) | Estilização manual centralizada via variáveis globais nativas (`:root`), garantindo identidade visual limpa sem dependências de frameworks externos. |
 | **Backend** | Flask (Python) | Construção ágil e minimalista dos endpoints da API RESTful, execução das validações de negócio e gerenciamento de sessões. |
 | **Banco de Dados** | MySQL | Modelagem relacional e persistência de dados financeiros, garantindo integridade e consistência transacional estrita. |
 | **Infraestrutura** | Docker / Docker Compose | Isolamento em containers de todos os ambientes para mitigar inconsistências operacionais de infraestrutura entre as máquinas locais. |
@@ -42,10 +42,10 @@ A escolha das ferramentas para o ecossistema do **Financess** obedeceu a critér
 * **Vantagens:** Inicialização de servidor local quase instantânea, atualizações de tela em tempo real extremamente rápidas (Hot Module Replacement) e geração de builds de produção enxutos e otimizados.
 * **Desvantagens:** Configurações altamente avançadas de plugins de terceiros podem exigir caminhos ligeiramente diferentes de customização se comparados ao ecossistema tradicional do Webpack.
 
-### 3.3. Tailwind CSS
-* **Por que foi utilizado?** Para agilizar a construção do Guia de Estilo (Modo Escuro) sem a necessidade de criar arquivos CSS gigantescos e complexos para cada componente.
-* **Vantagens:** Desenvolvimento de layouts em altíssima velocidade, eliminação de conflitos globais de classes CSS e compilação final otimizada onde apenas as classes efetivamente utilizadas entram no bundle de produção.
-* **Desvantagens:** Deixa a marcação HTML/JSX visualmente densa e poluída devido à alta quantidade de classes utilitárias escritas na mesma linha.
+### 3.3. Custom CSS3 (Vanilla CSS)
+* **Por que foi utilizado?** Em vez de inflar o projeto com frameworks pesados de estilização (como Tailwind ou Bootstrap), a equipe optou por criar uma folha de estilos limpa e centralizada (`index.css`), utilizando **Variáveis CSS** dinâmicas que alternam automaticamente as cores do sistema com base na preferência do sistema operacional do usuário.
+* **Vantagens:** Desempenho máximo (carregamento instantâneo), controle total sobre cada pixel da aplicação, independência completa de bibliotecas de terceiros que possam quebrar no futuro e código CSS legível e semântico.
+* **Desvantagens:** Exige escrever mais linhas de código manualmente para criar layouts responsivos através de `@media queries` e sistemas de posicionamento (Flexbox/Grid).
 
 ### 3.4. Flask (Python)
 * **Por que foi utilizado?** Finanças pessoais exigem segurança na manipulação de regras de negócio de backend. O Flask foi escolhido por ser um microframework minimalista em Python que permite erguer uma API REST funcional com pouquíssimas linhas de código, mantendo o controle total sobre a arquitetura.
@@ -76,13 +76,13 @@ financess/
 ├── frontend/              # Interface do Usuário (React + Vite)
 │   ├── src/               # Componentes, Páginas e Estados do React
 │   │   ├── assets/        # Recursos estáticos locais (imagens, logos)
-│   │   ├── index.css      # Estilos globais e injeções utilitárias do Tailwind CSS
+│   │   ├── index.css      # Estilos globais e variáveis nativas de cor do projeto
 │   │   └── main.jsx       # Ponto de entrada da aplicação React
 │   ├── public/            # Ativos públicos servidos diretamente
 │   ├── index.html         # Arquivo HTML principal (onde o Vite injeta o bundle)
 │   ├── vite.config.js     # Arquivo de configuração de build e servidor do Vite
 │   ├── Dockerfile         # Configuração de build do container do frontend
-│   └── package.json       # Dependências do ecossistema Node (React, Vite, Tailwind)
+│   └── package.json       # Dependências do ecossistema Node (React, Vite)
 ├── docker-compose.yml     # Orquestrador dos serviços (Backend, Frontend e MySQL)
 └── README.md              # Documentação oficial do projeto
 
@@ -119,13 +119,11 @@ docker-compose up --build
 
 ```
 
-*Nota: Adicione a flag `-d` no final se preferir rodar os containers em segundo plano (modo daemon).*
-
 **3. Acesse a aplicação:**
 Assim que os logs do terminal indicarem que o Vite e o Flask inicializaram com sucesso, você poderá acessar:
 
 * **Frontend (Interface do Usuário - Vite Server):** `http://localhost:3000`
-* **Backend (API Flask / Endpoints):** `http://localhost:5000`
+* **Backend (API Flask / Endpoints):** `http://localhost:5001`
 
 ### Comandos Úteis de Gerenciamento
 
@@ -136,22 +134,21 @@ Assim que os logs do terminal indicarem que o Vite e o Flask inicializaram com s
 
 ## 6. Guia de Estilo Visual (UI/UX)
 
-A interface foi projetada sob uma proposta de modo escuro moderno, transmitindo profissionalismo, segurança e clareza analítica.
+A interface possui suporte nativo a Temas (Light/Dark mode) baseado nas configurações de cor do sistema operacional do usuário.
 
-### 6.1. Paleta de Cores (Tailwind CSS)
+### 6.1. Paleta de Cores de Alta Fidelidade (Variáveis CSS)
 
-As cores são gerenciadas de forma utilitária diretamente no código estrutural:
+As cores centrais do projeto mudam dinamicamente conforme as definições abaixo:
 
-* **Verde Esmeralda (`#10b981` / `emerald-green`):** Utilizado em botões de ação principal, logotipia, ícones institucionais e sinalização de valores positivos (receitas).
-* **Fundo Escuro (`#111827` / `dark-bg`):** Cor predominante da interface (fundo do `body`).
-* **Fundo Médio (`#1f2937` / `medium-bg`):** Aplicado como plano de fundo de cartões informativos (*cards*), cabeçalhos e rodapés.
-* **Texto Primário (`#f9fafb`):** Textos de leitura principal e alto contraste.
-* **Vermelho Alerta (`#ef4444`):** Sinalização visual direta de despesas, erros em formulários ou fluxos pendentes.
+* **Tom de Destaque (`--accent: #14b8a6`):** Um tom moderno de Verde Teal/Esmeralda aplicado em botões primários, elementos interativos e links.
+* **Fundo Claro (`--bg: #fff`):** Base limpa e de alto contraste para navegação diurna.
+* **Fundo Escuro (`--bg: #16171d`):** Um tom de cinza escuro/antracite profundo projetado para conforto visual noturno.
+* **Linhas de Separação (`--border`):** Divisores sutis mapeados em `#e5e4e7` (Light) e `#2e303a` (Dark) para delimitar tabelas e seções sem gerar poluição visual.
 
-### 6.2. Tipografia e Hierarquia
+### 6.2. Tipografia e Estrutura Sêmica
 
-* **Fonte Principal:** Integrada via webfont (garantindo legibilidade contemporânea para dados massivos).
-* **Pesos de Fonte:** Distribuição semântica utilizando classes como `font-normal` (400) para parágrafos, `font-medium` (500) para formulários/botões, e `font-bold` (700) para indicadores numéricos do Dashboard e logotipos.
+* **Fontes do Sistema (`system-ui`, `Segoe UI`):** Uso de fontes nativas modernas para garantir renderização ultra-rápida, legibilidade confortável de dados financeiros e adaptação nativa para Windows, Linux e macOS.
+* **Layout Estrutural (`#root`):** A aplicação centraliza seu conteúdo em uma estrutura responsiva delimitada com largura máxima travada em `1126px`, gerando uma leitura de painel e dashboard limpa e organizada.
 
 ---
 

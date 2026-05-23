@@ -17,7 +17,7 @@ services:
     volumes:
       - ./backend:/app # Mapeia os teus ficheiros locais para o contentor
     ports:
-      - "5000:5000"
+      - "5001:5000"
     depends_on:
       - db # O backend só inicia depois da base de dados
     environment:

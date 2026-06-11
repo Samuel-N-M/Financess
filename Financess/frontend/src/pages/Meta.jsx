@@ -8,27 +8,24 @@ const Meta = ({ onNavigate, currentPage }) => {
     const [loading, setLoading] = useState(true);
     const [erro, setErro] = useState("");
 
-    // Função para ir buscar as metas ao backend
-    const fetchMetas = async () => {
-        try {
-            // Requisita os dados das metas do utilizador logado
-            const response = await api.get('/metas');
-            setMetas(response.data);
-        } catch (error) {
-            console.error("Erro ao carregar metas:", error);
-            setErro("Não foi possível carregar as suas metas.");
-            
-            // Se o token expirar, devolve ao login
-            if (error.response?.status === 401) {
-                onNavigate('login');
-            }
-        } finally {
-            setLoading(false);
-        }
-    };
-
     // Executa a busca assim que a página é carregada
     useEffect(() => {
+        const fetchMetas = async () => {
+            try {
+                const response = await api.get('/metas');
+                setMetas(response.data);
+            } catch (error) {
+                console.error("Erro ao carregar metas:", error);
+                setErro("Não foi possível carregar as suas metas.");
+                
+                if (error.response?.status === 401) {
+                    onNavigate('login');
+                }
+            } finally {
+                setLoading(false);
+            }
+        };
+
         fetchMetas();
     }, [onNavigate]);
 

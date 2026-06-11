@@ -3,9 +3,9 @@ import api from '../services/api';
 
 const Register = ({ onNavigate }) => {
   // Estados para os campos do formulário
-  const [nome, setNome] = useState('');
+  const [name, setNome] = useState('');
   const [email, setEmail] = useState('');
-  const [senha, setSenha] = useState('');
+  const [password, setSenha] = useState('');
   const [confirmarSenha, setConfirmarSenha] = useState('');
   
   // Estados para feedback visual
@@ -19,12 +19,12 @@ const Register = ({ onNavigate }) => {
     setSucesso('');
 
     // 1. Validação no Frontend
-    if (senha !== confirmarSenha) {
+    if (password !== confirmarSenha) {
       setErro('As senhas não coincidem. Por favor, verifique.');
       return;
     }
 
-    if (senha.length < 6) {
+    if (password.length < 6) {
       setErro('A senha deve ter pelo menos 6 caracteres.');
       return;
     }
@@ -34,9 +34,9 @@ const Register = ({ onNavigate }) => {
     try {
       // 2. Enviar os dados para o backend (auth_controller.py)
       await api.post('/auth/register', {
-        nome: nome,
+        nome: name,
         email: email,
-        senha: senha
+        senha: password
       });
 
       // 3. Feedback de sucesso e redirecionamento seguro
@@ -85,7 +85,7 @@ const Register = ({ onNavigate }) => {
               <input 
                 type="text" 
                 placeholder="O seu nome completo" 
-                value={nome}
+                value={name}
                 onChange={(e) => setNome(e.target.value)}
                 required 
                 disabled={loading || sucesso}
@@ -109,7 +109,7 @@ const Register = ({ onNavigate }) => {
               <input 
                 type="password" 
                 placeholder="Mínimo 6 caracteres" 
-                value={senha}
+                value={password}
                 onChange={(e) => setSenha(e.target.value)}
                 required 
                 disabled={loading || sucesso}

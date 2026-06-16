@@ -32,7 +32,7 @@ A aplicação utiliza uma divisão clara de responsabilidades através de uma ar
 ## 3. Justificativa e Análise da Stack Tecnológica
 A escolha das ferramentas para o ecossistema do **Financess** obedeceu a critérios de agilidade no desenvolvimento, curva de aprendizado acelerada e confiabilidade para sistemas transacionais. Abaixo constam as justificativas técnicas, vantagens e desvantagens de cada elemento:
 
-### 3.1. React
+### 3.1. React 
 * **Por que foi utilizado?** Para construir uma interface fluida do tipo SPA. A arquitetura baseada em componentes do React permite isolar elementos complexos (como o formulário de transações e as barras de metas) e atualizar a tela em tempo real sem recarregar a página.
 * **Vantagens:** Extrema flexibilidade, ecossistema gigante de bibliotecas prontas, reutilização contínua de componentes e excelente manipulação de estados.
 * **Desvantagens:** Por ser uma biblioteca de visualização e não um framework completo (como o Angular), exige que o desenvolvedor configure e escolha bibliotecas externas para tarefas adicionais de roteamento e estados globais.
